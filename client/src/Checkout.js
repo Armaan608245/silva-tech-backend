@@ -60,7 +60,7 @@ function Checkout({ cart, setCart }) {
     try {
 
       await axios.post(
-        "https://silvatechcomputers.onrender.com/activity",
+        "https://silva-tech-backend-pazp.onrender.com/activity",
         {
 
           customerName: form.name,
@@ -82,23 +82,91 @@ function Checkout({ cart, setCart }) {
       return;
     }
 
-    const productList = cart.map(
-      (item) =>
+    /* ================= PRODUCT DETAILS ================= */
 
-        `${item.name} (x${item.qty}) - ₹${item.price}`
-    ).join("\n");
+    const productList = cart.map((item, index) => {
 
-    const message = `New Order 🚀
+      const itemTotal =
+        item.price * item.qty;
 
-Name: ${form.name}
-Email: ${form.email}
-Phone: ${form.phone}
-Address: ${form.address}
+      return `
+━━━━━━━━━━━━━━
 
-Products:
+📦 PRODUCT ${index + 1}
+
+🖥 Product Name :
+${item.name || "N/A"}
+
+💰 Price :
+₹${item.price || 0}
+
+🔢 Quantity :
+${item.qty || 1}
+
+💵 Subtotal :
+₹${itemTotal}
+
+🎨 Color :
+${item.color || "N/A"}
+
+💾 RAM :
+${item.ram || "N/A"}
+
+⚡ Processor :
+${item.processor || "N/A"}
+
+🖥 Graphics :
+${item.graphics || "N/A"}
+
+💽 Storage :
+${item.storage || "N/A"}
+
+📺 Display :
+${item.display || "N/A"}
+
+🏷 Brand :
+${item.brand || "N/A"}
+
+🧩 Category :
+${item.category || "N/A"}
+
+📝 Description :
+${item.description || "N/A"}
+
+`;
+
+    }).join("\n");
+
+    /* ================= WHATSAPP MESSAGE ================= */
+
+    const message = `
+🛒 NEW ORDER RECEIVED
+
+━━━━━━━━━━━━━━
+
+👤 CUSTOMER DETAILS
+
+Name : ${form.name}
+
+Email : ${form.email}
+
+Phone : ${form.phone}
+
+Address :
+${form.address}
+
+━━━━━━━━━━━━━━
+
+📦 ORDER ITEMS
+
 ${productList}
 
-Total: ₹${total}`;
+━━━━━━━━━━━━━━
+
+💰 GRAND TOTAL : ₹${total}
+
+━━━━━━━━━━━━━━
+`;
 
     const phoneNumber = "9082631441";
 

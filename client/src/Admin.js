@@ -3,7 +3,7 @@ import axios from "axios";
 
 function Admin() {
 
-  const API = "https://silvatechcomputers.onrender.com";
+  const API = "https://silva-tech-backend-pazp.onrender.com";
 
   const [tab, setTab] = useState("products");
 
@@ -351,17 +351,6 @@ function Admin() {
           📦 Products
         </button>
 
-        <button
-          className={
-            tab === "slider"
-              ? "active-admin-btn"
-              : ""
-          }
-          onClick={() => setTab("slider")}
-        >
-          🎞 Hero Slider
-        </button>
-
       </div>
 
       {/* ================= MAIN ================= */}
@@ -595,10 +584,6 @@ function Admin() {
 
                   <option value="laptop-spares">
                     LAPTOP SPARES
-                  </option>
-
-                  <option value="dslrs">
-                    DSLRS
                   </option>
 
                   <option value="printers">

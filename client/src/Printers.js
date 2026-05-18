@@ -17,7 +17,7 @@ function Printers({ cart = [], setCart }) {
   useEffect(() => {
 
     axios
-      .get("https://silvatechcomputers.onrender.com/products")
+      .get("https://silva-tech-backend-pazp.onrender.com/products")
       .then((res) => setProducts(res.data))
       .catch((err) => console.log(err));
 
@@ -43,25 +43,51 @@ function Printers({ cart = [], setCart }) {
       (i) => i._id === product._id
     );
 
+    /* STOCK LIMIT */
+
+    if (
+      exist &&
+      exist.qty >= Number(product.stock)
+    ) {
+
+      return;
+    }
+
+    let updatedCart;
+
     if (exist) {
 
-      setCart(
-        cart.map((i) =>
-          i._id === product._id
-            ? { ...i, qty: i.qty + 1 }
-            : i
-        )
+      updatedCart = cart.map((i) =>
+
+        i._id === product._id
+
+          ? {
+            ...i,
+            qty: i.qty + 1
+          }
+
+          : i
       );
 
     } else {
 
-      setCart([
+      updatedCart = [
+
         ...cart,
-        { ...product, qty: 1 }
-      ]);
+
+        {
+          ...product,
+          qty: 1
+        }
+      ];
     }
 
-    alert("Added To Cart ✅");
+    setCart(updatedCart);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
   };
 
   /* ================= WHATSAPP ================= */
@@ -223,12 +249,72 @@ Requirement: ${requirement}`;
 
                     <>
 
-                      <button
-                        className="desktop-add-btn"
-                        onClick={() => addToCart(p)}
-                      >
-                        Add To Cart
-                      </button>
+                      {cart.find(i => i._id === p._id) ? (
+
+                        <div className="qty-box-modern">
+
+                          <button
+                            onClick={() => {
+
+                              let updatedCart = cart.map(i =>
+
+                                i._id === p._id
+
+                                  ? {
+                                    ...i,
+                                    qty: i.qty - 1
+                                  }
+
+                                  : i
+                              );
+
+                              updatedCart =
+                                updatedCart.filter(
+                                  i => i.qty > 0
+                                );
+
+                              setCart(updatedCart);
+
+                              localStorage.setItem(
+                                "cart",
+                                JSON.stringify(updatedCart)
+                              );
+                            }}
+                          >
+                            -
+                          </button>
+
+                          <span>
+                            {
+                              cart.find(
+                                i => i._id === p._id
+                              )?.qty
+                            }
+                          </span>
+
+                          <button
+                            onClick={() => addToCart(p)}
+                            disabled={
+                              cart.find(
+                                i => i._id === p._id
+                              )?.qty >= Number(p.stock)
+                            }
+                          >
+                            +
+                          </button>
+
+                        </div>
+
+                      ) : (
+
+                        <button
+                          className="desktop-add-btn"
+                          onClick={() => addToCart(p)}
+                        >
+                          Add To Cart
+                        </button>
+
+                      )}
 
                       <button
                         className="desktop-view-btn"

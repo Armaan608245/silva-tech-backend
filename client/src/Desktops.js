@@ -19,7 +19,7 @@ function Desktops({ cart = [], setCart }) {
   useEffect(() => {
 
     axios
-      .get("https://silvatechcomputers.onrender.com/products")
+      .get("https://silva-tech-backend-pazp.onrender.com/products")
       .then((res) => setProducts(res.data))
       .catch((err) => console.log(err));
 
@@ -52,23 +52,58 @@ function Desktops({ cart = [], setCart }) {
       (i) => i._id === product._id
     );
 
+    /* OUT OF STOCK */
+
+    if (Number(product.stock) <= 0) {
+
+      return;
+    }
+
+    /* STOCK LIMIT */
+
+    if (
+      exist &&
+      exist.qty >= Number(product.stock)
+    ) {
+
+      return;
+    }
+
+    let updatedCart;
+
     if (exist) {
 
-      setCart(
-        cart.map((i) =>
-          i._id === product._id
-            ? { ...i, qty: i.qty + 1 }
-            : i
-        )
+      updatedCart = cart.map((i) =>
+
+        i._id === product._id
+
+          ? {
+            ...i,
+            qty: i.qty + 1
+          }
+
+          : i
       );
 
     } else {
 
-      setCart([
+      updatedCart = [
+
         ...cart,
-        { ...product, qty: 1 }
-      ]);
+
+        {
+          ...product,
+          qty: 1
+        }
+      ];
     }
+
+    setCart(updatedCart);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
 
     setShowPopup(true);
 
@@ -78,42 +113,64 @@ function Desktops({ cart = [], setCart }) {
 
     }, 2500);
   };
-
   const increase = (product) => {
-
-    setCart(
-      cart.map((i) =>
-        i._id === product._id
-          ? { ...i, qty: i.qty + 1 }
-          : i
-      )
-    );
-  };
-
-  const decrease = (product) => {
 
     const item = cart.find(
       (i) => i._id === product._id
     );
 
-    if (item.qty === 1) {
+    if (
+      item.qty >= Number(product.stock)
+    ) {
 
-      setCart(
-        cart.filter(
-          (i) => i._id !== product._id
-        )
-      );
-
-    } else {
-
-      setCart(
-        cart.map((i) =>
-          i._id === product._id
-            ? { ...i, qty: i.qty - 1 }
-            : i
-        )
-      );
+      return;
     }
+
+    const updatedCart = cart.map((i) =>
+
+      i._id === product._id
+
+        ? {
+          ...i,
+          qty: i.qty + 1
+        }
+
+        : i
+    );
+
+    setCart(updatedCart);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
+  };
+
+  const decrease = (product) => {
+
+    let updatedCart = cart.map((i) =>
+
+      i._id === product._id
+
+        ? {
+          ...i,
+          qty: i.qty - 1
+        }
+
+        : i
+    );
+
+    updatedCart =
+      updatedCart.filter(
+        (i) => i.qty > 0
+      );
+
+    setCart(updatedCart);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
   };
 
   /* ================= PRODUCTS ================= */
@@ -197,11 +254,11 @@ function Desktops({ cart = [], setCart }) {
           {(String(p.isComingSoon) === "true" ||
             p.isComingSoon === true) && (
 
-            <span className="coming-tag">
-              COMING SOON
-            </span>
+              <span className="coming-tag">
+                COMING SOON
+              </span>
 
-          )}
+            )}
 
           {/* IMAGE */}
 

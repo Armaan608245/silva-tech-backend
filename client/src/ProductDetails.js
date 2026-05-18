@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
-function ProductDetails({ setCart }) {
+function ProductDetails({ cart = [], setCart }) {
 
   const { id } = useParams();
 
@@ -16,7 +16,7 @@ function ProductDetails({ setCart }) {
 
   const [zoomStyle, setZoomStyle] = useState({});
 
-  const API = "https://silvatechcomputers.onrender.com";
+  const API = "https://silva-tech-backend-pazp.onrender.com";
 
   useEffect(() => {
 
@@ -101,17 +101,68 @@ function ProductDetails({ setCart }) {
 
   const addToCart = () => {
 
-    setCart(prev => [
+    const existing = cart.find(
+      i => i._id === product._id
+    );
 
-      ...prev,
+    /* OUT OF STOCK */
 
-      {
-        ...product,
-        qty: 1
-      }
-    ]);
+    if (Number(product.stock) <= 0) {
 
-    alert("Added to Cart ✅");
+      alert("Out Of Stock ❌");
+
+      return;
+    }
+
+    /* STOCK LIMIT */
+
+    if (
+      existing &&
+      existing.qty >= Number(product.stock)
+    ) {
+
+      alert(
+        `Only ${product.stock} items available`
+      );
+
+      return;
+    }
+
+    let updatedCart;
+
+    if (existing) {
+
+      updatedCart = cart.map(i =>
+
+        i._id === product._id
+
+          ? {
+            ...i,
+            qty: i.qty + 1
+          }
+
+          : i
+      );
+
+    } else {
+
+      updatedCart = [
+
+        ...cart,
+
+        {
+          ...product,
+          qty: 1
+        }
+      ];
+    }
+
+    setCart(updatedCart);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
   };
 
   return (
@@ -486,12 +537,72 @@ function ProductDetails({ setCart }) {
 
               <>
 
-                <button
-                  onClick={addToCart}
-                  style={cartBtn}
-                >
-                  Add to Cart 🛒
-                </button>
+                {cart.find(i => i._id === product._id) ? (
+
+                  <div className="qty-box-modern">
+
+                    <button
+                      onClick={() => {
+
+                        let updatedCart = cart.map(i =>
+
+                          i._id === product._id
+
+                            ? {
+                              ...i,
+                              qty: i.qty - 1
+                            }
+
+                            : i
+                        );
+
+                        updatedCart =
+                          updatedCart.filter(
+                            i => i.qty > 0
+                          );
+
+                        setCart(updatedCart);
+
+                        localStorage.setItem(
+                          "cart",
+                          JSON.stringify(updatedCart)
+                        );
+                      }}
+                    >
+                      -
+                    </button>
+
+                    <span>
+                      {
+                        cart.find(
+                          i => i._id === product._id
+                        )?.qty
+                      }
+                    </span>
+
+                    <button
+                      onClick={addToCart}
+                      disabled={
+                        cart.find(
+                          i => i._id === product._id
+                        )?.qty >= Number(product.stock)
+                      }
+                    >
+                      +
+                    </button>
+
+                  </div>
+
+                ) : (
+
+                  <button
+                    onClick={addToCart}
+                    style={cartBtn}
+                  >
+                    Add to Cart 🛒
+                  </button>
+
+                )}
 
                 <button
                   onClick={() => navigate("/checkout")}

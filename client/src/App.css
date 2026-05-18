@@ -6781,3 +6781,579 @@ body::before{
     transform:translateX(-50%);
   }
 }
+/* ================= TEXT VISIBILITY FIX ONLY ================= */
+
+.premium-title{
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(0,0,0,0.8);
+}
+
+/* CATEGORY TEXT */
+
+.premium-category-card h3{
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 0 12px rgba(0,0,0,0.8);
+}
+
+/* PRODUCT NAME */
+
+.core-card h3{
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* PRICE */
+
+.core-price{
+  color: #00d4ff;
+  font-weight: 700;
+}
+
+/* ADD TO CART TEXT */
+
+.add-modern-btn{
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* VIEW BUTTON TEXT */
+
+.view-modern-btn{
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* QTY TEXT */
+
+.qty-box-modern span{
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* CART POPUP TEXT ONLY */
+
+.cart-popup p,
+.cart-popup h3,
+.cart-popup span,
+.cart-popup button{
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* WHY US TEXT */
+
+.why-card h3{
+  color: #ffffff;
+}
+
+.why-card p{
+  color: #d8d8d8;
+}
+/* ================= QTY NUMBER FIX ================= */
+
+.qty-box-modern span{
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-size: 18px;
+}
+
+/* ================= CART SIDEBAR TEXT FIX ================= */
+
+.cart-sidebar span{
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+.cart-sidebar h3{
+  color: #000000 !important;
+}
+
+.cart-sidebar p{
+  color: #000000 !important;
+}
+
+/* ================= PRODUCT TITLE IN CART ================= */
+
+.cart-item h4{
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* ================= CART QTY NUMBER ================= */
+
+.cart-item span{
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+/* FORCE CART TEXT COLOR */
+
+.cart-sidebar *{
+  color: #000000;
+}
+/* ================= PREMIUM NAVBAR ================= */
+
+.premium-navbar{
+  padding: 10px 22px;
+  background: #ffffff;
+}
+
+/* CONTAINER */
+
+.premium-navbar-container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+/* ================= LOGO SECTION ================= */
+
+.premium-navbar-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  min-width:auto;
+}
+
+/* LOGO IMAGE */
+
+.premium-logo-image img{
+  width:68px;
+  height:68px;
+  object-fit:cover;
+  border-radius:16px;
+}
+
+/* TEXT AREA */
+
+.premium-logo-text{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+/* SILVA TECH */
+
+.premium-logo-text h1{
+  margin:0;
+  font-size:24px;
+  font-weight:900;
+  line-height:1;
+  color:#111111;
+  letter-spacing:0.5px;
+  white-space:nowrap;
+}
+
+/* BLUE TECH */
+
+.premium-logo-text h1 span{
+  color:#2563eb;
+}
+
+/* COMPUTERS */
+
+.premium-logo-text h2{
+  margin:2px 0 0 0;
+  font-size:16px;
+  font-weight:700;
+  line-height:1;
+  color:#111111;
+  letter-spacing:1px;
+}
+
+/* TAGLINE */
+
+.premium-logo-text p{
+  margin-top:4px;
+  font-size:10px;
+  letter-spacing:2px;
+  color:#666666;
+  font-weight:600;
+  white-space:nowrap;
+}
+
+/* ================= NAV LINKS ================= */
+
+.premium-navbar-links{
+  display:flex;
+  align-items:center;
+  gap:42px;
+  margin-left:20px;
+}
+
+.premium-navbar-links span{
+  font-size:17px;
+  font-weight:700;
+  cursor:pointer;
+  color:#111111;
+  transition:0.3s;
+}
+
+.premium-navbar-links span:hover{
+  color:#2563eb;
+}
+/* ================= LOGO TEXT ================= */
+
+.premium-logo-text{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+/* MAIN LINE */
+
+.premium-logo-text h1{
+  margin:0;
+  font-size:28px;
+  font-weight:900;
+  line-height:1;
+  white-space:nowrap;
+  letter-spacing:0.5px;
+}
+
+/* BLACK TEXT */
+
+.black-text{
+  color:#111111;
+}
+
+/* BLUE TEXT */
+
+.blue-text{
+  color:#2563eb;
+}
+
+/* TAGLINE */
+
+.premium-logo-text p{
+  margin-top:6px;
+  font-size:11px;
+  letter-spacing:2px;
+  color:#666666;
+  font-weight:600;
+  white-space:nowrap;
+}
+/* ================= FINAL LOGO FIX ================= */
+
+.premium-navbar-container{
+  width:95%;
+  margin:auto;
+  display:grid;
+  grid-template-columns:360px 1fr 150px;
+  align-items:center;
+}
+
+/* LOGO */
+
+.premium-navbar-logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+}
+
+/* IMAGE */
+
+.premium-logo-image img{
+  width:78px !important;
+  height:78px !important;
+  border-radius:18px;
+  object-fit:cover;
+}
+
+/* TEXT WRAPPER */
+
+.premium-logo-text{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+/* MAIN TEXT */
+
+.premium-logo-text h1{
+  margin:0 !important;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  font-size:24px !important;
+  font-weight:900 !important;
+
+  line-height:1.1 !important;
+
+  white-space:nowrap;
+
+  letter-spacing:0px !important;
+}
+
+/* COLORS */
+
+.black-text{
+  color:#111111 !important;
+}
+
+.blue-text{
+  color:#2563eb !important;
+}
+
+/* TAGLINE */
+
+.premium-logo-text p{
+  margin-top:5px !important;
+
+  font-size:11px !important;
+
+  letter-spacing:2px !important;
+
+  color:#666666 !important;
+
+  font-weight:700 !important;
+
+  white-space:nowrap;
+}
+
+/* NAV LINKS BIGGER */
+
+.premium-navbar-links span{
+  font-size:20px !important;
+  font-weight:700 !important;
+}
+
+/* REDUCE LEFT GAP */
+
+.premium-navbar{
+  padding-left:5px;
+}
+/* ================= PERFECT NAVBAR ALIGNMENT ================= */
+
+.premium-navbar-container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+/* LOGO */
+
+.premium-navbar-logo{
+  flex-shrink:0;
+}
+
+/* NAV LINKS */
+
+.premium-navbar-links{
+  display:flex;
+  align-items:center;
+  gap:36px !important;
+
+  margin-left:30px !important;
+
+  flex:1;
+  justify-content:center;
+}
+
+/* CART BUTTON */
+
+.premium-cart-btn{
+  flex-shrink:0;
+  white-space:nowrap;
+}
+/* ================= MOBILE NAVBAR ================= */
+
+.menu-toggle{
+  display:none;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px){
+
+  /* NAVBAR */
+
+  .premium-navbar{
+    padding:12px 16px;
+  }
+
+  .premium-navbar-container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:relative;
+  }
+
+  /* LOGO */
+
+  .premium-logo-image img{
+    width:52px !important;
+    height:52px !important;
+  }
+
+  .premium-logo-text h1{
+    font-size:18px !important;
+  }
+
+  .premium-logo-text p{
+    font-size:8px !important;
+    letter-spacing:1px !important;
+  }
+
+  /* HAMBURGER */
+
+  .menu-toggle{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:44px;
+    height:44px;
+
+    border-radius:12px;
+
+    background:#2563eb;
+    color:white;
+
+    font-size:26px;
+    font-weight:700;
+
+    cursor:pointer;
+  }
+
+  /* MOBILE MENU */
+
+  .premium-navbar-links{
+
+    position:absolute;
+
+    top:75px;
+    right:0;
+
+    width:230px;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    display:none;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:18px;
+
+    box-shadow:
+      0 10px 35px rgba(0,0,0,0.15);
+
+    z-index:999;
+  }
+
+  /* ACTIVE */
+
+  .premium-navbar-links.active{
+    display:flex;
+  }
+
+  /* LINKS */
+
+  .premium-navbar-links span{
+    font-size:18px !important;
+    font-weight:700;
+    width:100%;
+  }
+
+  /* HIDE CART */
+
+  .premium-cart-btn{
+    display:none;
+  }
+}
+/* ================= MOBILE NAVBAR FIX ================= */
+
+@media (max-width: 768px){
+
+  /* SHOW HAMBURGER */
+
+  .menu-toggle{
+    display:flex !important;
+
+    align-items:center;
+    justify-content:center;
+
+    width:42px;
+    height:42px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border-radius:12px;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    z-index:1001;
+  }
+
+  /* HIDE MENU INITIALLY */
+
+  .premium-navbar-links{
+    display:none !important;
+
+    position:absolute;
+
+    top:80px;
+    right:10px;
+
+    width:220px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:18px;
+
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.15);
+
+    z-index:1000;
+  }
+
+  /* OPEN MENU */
+
+  .premium-navbar-links.active{
+    display:flex !important;
+  }
+
+  /* HIDE CART */
+
+  .premium-cart-btn{
+    display:none;
+  }
+
+  /* SMALLER LOGO */
+
+  .premium-logo-text h1{
+    font-size:18px !important;
+  }
+
+  .premium-logo-text p{
+    font-size:8px !important;
+  }
+
+  .premium-logo-image img{
+    width:55px !important;
+    height:55px !important;
+  }
+}

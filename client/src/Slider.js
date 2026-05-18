@@ -8,7 +8,7 @@ function Slider() {
 
   // 🔥 FETCH
   useEffect(() => {
-    axios.get("https://silvatechcomputers.onrender.com/slider")
+    axios.get("https://silva-tech-backend-pazp.onrender.com/slider")
       .then(res => setSlides(res.data))
       .catch(err => console.log(err));
   }, []);

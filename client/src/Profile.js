@@ -53,7 +53,7 @@ function Profile() {
     console.log("SENDING:", dataToSend);
 
     const res = await axios.put(
-      `https://silvatechcomputers.onrender.com/update-profile/${user._id}`,
+      `https://silva-tech-backend-pazp.onrender.com/update-profile/${user._id}`,
       dataToSend
     );
 

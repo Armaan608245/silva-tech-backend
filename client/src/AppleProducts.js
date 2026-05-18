@@ -15,7 +15,7 @@ function AppleProducts({ cart = [], setCart }) {
   useEffect(() => {
 
     axios
-      .get("https://silvatechcomputers.onrender.com/products")
+      .get("https://silva-tech-backend-pazp.onrender.com/products")
       .then((res) => setProducts(res.data))
       .catch((err) => console.log(err));
 
@@ -49,23 +49,58 @@ function AppleProducts({ cart = [], setCart }) {
       (i) => i._id === product._id
     );
 
+    /* OUT OF STOCK */
+
+    if (Number(product.stock) <= 0) {
+
+      return;
+    }
+
+    /* STOCK LIMIT */
+
+    if (
+      exist &&
+      exist.qty >= Number(product.stock)
+    ) {
+
+      return;
+    }
+
+    let updatedCart;
+
     if (exist) {
 
-      setCart(
-        cart.map((i) =>
-          i._id === product._id
-            ? { ...i, qty: i.qty + 1 }
-            : i
-        )
+      updatedCart = cart.map((i) =>
+
+        i._id === product._id
+
+          ? {
+            ...i,
+            qty: i.qty + 1
+          }
+
+          : i
       );
 
     } else {
 
-      setCart([
+      updatedCart = [
+
         ...cart,
-        { ...product, qty: 1 }
-      ]);
+
+        {
+          ...product,
+          qty: 1
+        }
+      ];
     }
+
+    setCart([...updatedCart]);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
 
     setShowPopup(true);
 
@@ -78,39 +113,62 @@ function AppleProducts({ cart = [], setCart }) {
 
   const increase = (product) => {
 
-    setCart(
-      cart.map((i) =>
-        i._id === product._id
-          ? { ...i, qty: i.qty + 1 }
-          : i
-      )
+    const item = cart.find(
+      (i) => i._id === product._id
+    );
+
+    if (
+      item.qty >= Number(product.stock)
+    ) {
+
+      return;
+    }
+
+    const updatedCart = cart.map((i) =>
+
+      i._id === product._id
+
+        ? {
+          ...i,
+          qty: i.qty + 1
+        }
+
+        : i
+    );
+
+    setCart([...updatedCart]);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
     );
   };
 
   const decrease = (product) => {
 
-    const item = cart.find(
-      (i) => i._id === product._id
+    let updatedCart = cart.map((i) =>
+
+      i._id === product._id
+
+        ? {
+          ...i,
+          qty: i.qty - 1
+        }
+
+        : i
     );
 
-    if (item.qty === 1) {
-
-      setCart(
-        cart.filter(
-          (i) => i._id !== product._id
-        )
+    updatedCart =
+      updatedCart.filter(
+        (i) => i.qty > 0
       );
 
-    } else {
+    setCart([...updatedCart]);
 
-      setCart(
-        cart.map((i) =>
-          i._id === product._id
-            ? { ...i, qty: i.qty - 1 }
-            : i
-        )
-      );
-    }
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
   };
 
   /* ================= PRODUCTS ================= */

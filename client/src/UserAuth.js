@@ -38,12 +38,12 @@ function UserAuth() {
           return;
         }
 
-        await axios.post("https://silvatechcomputers.onrender.com/signup", form);
+        await axios.post("https://silva-tech-backend-pazp.onrender.com/signup", form);
         alert("Signup success ✅");
         setIsLogin(true);
 
       } else {
-        const res = await axios.post("https://silvatechcomputers.onrender.com/login", {
+        const res = await axios.post("https://silva-tech-backend-pazp.onrender.com/login", {
           email: form.email,
           password: form.password
         });

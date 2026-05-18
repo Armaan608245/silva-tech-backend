@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
 
   const navigate = useNavigate();
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
 
@@ -21,7 +23,7 @@ function Navbar() {
           <div className="premium-logo-image">
 
             <img
-              src="/logo.jpeg"
+              src="/reallogo.jpeg"
               alt="Silva Tech Computers"
             />
 
@@ -30,20 +32,30 @@ function Navbar() {
           <div className="premium-logo-text">
 
             <h1>
-              SILVA <span>TECH</span>
+              <span className="black-text">SILVA</span>
+              <span className="blue-text">TECH</span>
+              <span className="blue-text">COMPUTERS</span>
             </h1>
 
             <p>
-              COMPUTER SOLUTIONS
+              YOUR VISION OUR TECH
             </p>
 
           </div>
+        </div>
 
+        {/* ================= HAMBURGER ================= */}
+
+        <div
+          className="menu-toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
         </div>
 
         {/* ================= NAV LINKS ================= */}
 
-        <div className="premium-navbar-links">
+        <div className={`premium-navbar-links ${menuOpen ? "active" : ""}`}>
 
           <span onClick={() => navigate("/desktops")}>
             Desktops

@@ -37,7 +37,6 @@ import "./index.css";
 import "./App.css";
 
 import Printers from "./Printers";
-import DSLRS from "./DSLRS";
 
 /* ================= PAGE ANIMATION ================= */
 
@@ -48,26 +47,26 @@ function PageWrapper({ children }) {
     <motion.div
 
       initial={{
-        opacity:0,
-        scale:0.98,
-        y:40
+        opacity: 0,
+        scale: 0.98,
+        y: 40
       }}
 
       animate={{
-        opacity:1,
-        scale:1,
-        y:0
+        opacity: 1,
+        scale: 1,
+        y: 0
       }}
 
       exit={{
-        opacity:0,
-        scale:0.98,
-        y:-40
+        opacity: 0,
+        scale: 0.98,
+        y: -40
       }}
 
       transition={{
-        duration:0.55,
-        ease:[0.22,1,0.36,1]
+        duration: 0.55,
+        ease: [0.22, 1, 0.36, 1]
       }}
     >
 
@@ -185,6 +184,7 @@ function AnimatedRoutes({
             <PageWrapper>
 
               <ProductDetails
+                cart={cart}
                 setCart={setCart}
               />
 
@@ -245,13 +245,10 @@ function AnimatedRoutes({
         <Route
           path="/accessories"
           element={
-            <PageWrapper>
-
-              <Accessories
-                setCart={setCart}
-              />
-
-            </PageWrapper>
+            <Accessories
+              cart={cart}
+              setCart={setCart}
+            />
           }
         />
 
@@ -438,21 +435,7 @@ function AnimatedRoutes({
           }
         />
 
-        {/* DSLR */}
 
-        <Route
-          path="/dslr"
-          element={
-            <PageWrapper>
-
-              <DSLRS
-                cart={cart}
-                setCart={setCart}
-              />
-
-            </PageWrapper>
-          }
-        />
 
       </Routes>
 

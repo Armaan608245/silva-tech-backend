@@ -30,11 +30,11 @@ function Home({ cart = [], setCart }) {
 
   useEffect(() => {
 
-    axios.get("https://silvatechcomputers.onrender.com/products")
+    axios.get("https://silva-tech-backend-pazp.onrender.com/products")
       .then(res => setProducts(res.data))
       .catch(console.log);
 
-    axios.get("http://https://silvatechcomputers.onrender.com/slider")
+    axios.get("https://silva-tech-backend-pazp.onrender.com/slider")
       .then(res => setSlider(res.data))
       .catch(console.log);
 
@@ -95,33 +95,90 @@ function Home({ cart = [], setCart }) {
 
   const addToCart = (p) => {
 
-    const exist = cart.find(i => i._id === p._id);
+  const exist = cart.find(
+    i => i._id === p._id
+  );
 
-    if (exist) {
+  /* OUT OF STOCK */
 
-      setCart(cart.map(i =>
-        i._id === p._id
-          ? { ...i, qty: i.qty + 1 }
-          : i
-      ));
+  if (Number(p.stock) <= 0) {
 
-    } else {
+    
 
-      setCart([
-        ...cart,
-        { ...p, qty: 1 }
-      ]);
-    }
-  };
+    return;
+  }
+
+  /* STOCK LIMIT */
+
+  if (
+    exist &&
+    exist.qty >= Number(p.stock)
+  ) {
+
+    alert(
+      `Only ${p.stock} items available`
+    );
+
+    return;
+  }
+
+  if (exist) {
+
+    setCart(cart.map(i =>
+
+      i._id === p._id
+
+        ? {
+            ...i,
+            qty: i.qty + 1
+          }
+
+        : i
+    ));
+
+  } else {
+
+    setCart([
+
+      ...cart,
+
+      {
+        ...p,
+        qty: 1
+      }
+    ]);
+  }
+};
 
   const increase = (p) => {
 
-    setCart(cart.map(i =>
-      i._id === p._id
-        ? { ...i, qty: i.qty + 1 }
-        : i
-    ));
-  };
+  const item = cart.find(
+    i => i._id === p._id
+  );
+
+  if (
+    item.qty >= Number(p.stock)
+  ) {
+
+    alert(
+      `Only ${p.stock} items available`
+    );
+
+    return;
+  }
+
+  setCart(cart.map(i =>
+
+    i._id === p._id
+
+      ? {
+          ...i,
+          qty: i.qty + 1
+        }
+
+      : i
+  ));
+};
 
   const decrease = (p) => {
 

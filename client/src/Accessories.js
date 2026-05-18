@@ -15,7 +15,7 @@ function Accessories({ cart = [], setCart }) {
   useEffect(() => {
 
     axios
-      .get("https://silvatechcomputers.onrender.com/products")
+      .get("https://silva-tech-backend-pazp.onrender.com/products")
 
       .then((res) => {
 
@@ -42,73 +42,134 @@ function Accessories({ cart = [], setCart }) {
 
   /* ================= CART ================= */
 
-  const getQty = (id) => {
 
-    const item = cart.find((i) => i._id === id);
-
-    return item ? item.qty : 0;
-  };
 
   const addToCart = (product) => {
 
-    const exist = cart.find((i) => i._id === product._id);
+    const exist = cart.find(
+      (i) => i._id === product._id
+    );
+
+    /* OUT OF STOCK */
+
+    if (Number(product.stock) <= 0) {
+
+      return;
+    }
+
+    /* STOCK LIMIT */
+
+    if (
+      exist &&
+      exist.qty >= Number(product.stock)
+    ) {
+
+      return;
+    }
+
+    let updatedCart;
 
     if (exist) {
 
-      setCart(
-        cart.map((i) =>
-          i._id === product._id
-            ? { ...i, qty: i.qty + 1 }
-            : i
-        )
+      updatedCart = cart.map((i) =>
+
+        i._id === product._id
+
+          ? {
+            ...i,
+            qty: i.qty + 1
+          }
+
+          : i
       );
 
     } else {
 
-      setCart([
+      updatedCart = [
+
         ...cart,
-        { ...product, qty: 1 }
-      ]);
+
+        {
+          ...product,
+          qty: 1
+        }
+      ];
     }
+
+    setCart([...updatedCart]);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
 
     setShowPopup(true);
 
     setTimeout(() => {
+
       setShowPopup(false);
+
     }, 2500);
   };
 
   const increase = (product) => {
 
-    setCart(
-      cart.map((i) =>
-        i._id === product._id
-          ? { ...i, qty: i.qty + 1 }
-          : i
-      )
+    const item = cart.find(
+      (i) => i._id === product._id
+    );
+
+    if (
+      item.qty >= Number(product.stock)
+    ) {
+
+      return;
+    }
+
+    const updatedCart = cart.map((i) =>
+
+      i._id === product._id
+
+        ? {
+          ...i,
+          qty: i.qty + 1
+        }
+
+        : i
+    );
+
+    setCart([...updatedCart]);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
     );
   };
 
   const decrease = (product) => {
 
-    const item = cart.find((i) => i._id === product._id);
+    let updatedCart = cart.map((i) =>
 
-    if (item.qty === 1) {
+      i._id === product._id
 
-      setCart(
-        cart.filter((i) => i._id !== product._id)
+        ? {
+          ...i,
+          qty: i.qty - 1
+        }
+
+        : i
+    );
+
+    updatedCart =
+      updatedCart.filter(
+        (i) => i.qty > 0
       );
 
-    } else {
+    setCart([...updatedCart]);
 
-      setCart(
-        cart.map((i) =>
-          i._id === product._id
-            ? { ...i, qty: i.qty - 1 }
-            : i
-        )
-      );
-    }
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
   };
 
   /* ================= HELPERS ================= */
@@ -235,7 +296,7 @@ function Accessories({ cart = [], setCart }) {
 
                 <>
 
-                  {getQty(p._id) > 0 ? (
+                  {cart.filter(i => i._id === p._id).length > 0 ? (
 
                     <div className="desktop-qty-box">
 
@@ -246,11 +307,20 @@ function Accessories({ cart = [], setCart }) {
                       </button>
 
                       <span>
-                        {getQty(p._id)}
+                        {
+                          cart.filter(
+                            i => i._id === p._id
+                          )[0]?.qty || 0
+                        }
                       </span>
 
                       <button
                         onClick={() => increase(p)}
+                        disabled={
+                          cart.filter(
+                            i => i._id === p._id
+                          )[0]?.qty >= Number(p.stock)
+                        }
                       >
                         +
                       </button>
@@ -267,6 +337,8 @@ function Accessories({ cart = [], setCart }) {
                     </button>
 
                   )}
+
+                
 
                   <button
                     className="desktop-view-btn"
@@ -361,12 +433,7 @@ function Accessories({ cart = [], setCart }) {
             DESKTOP SPARES
           </div>
 
-          <div
-            className="accessories-menu-item"
-            onClick={() => navigate("/dslr")}
-          >
-            DSLRS
-          </div>
+
 
           <div
             className="accessories-menu-item"
