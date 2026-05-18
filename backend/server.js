@@ -23,41 +23,49 @@ app.use(cors());
 
 app.use(express.json());
 
-/* ================= TEST ================= */
+/* ================= HOME ================= */
 
 app.get("/", (req, res) => {
-  res.send("Backend Running ✅");
+
+  res.send("Silva Tech API Running ✅");
+
 });
 
 /* ================= CLOUDINARY ================= */
 
 cloudinary.config({
+
   cloud_name: process.env.CLOUD_NAME,
+
   api_key: process.env.API_KEY,
+
   api_secret: process.env.API_SECRET
+
 });
 
 /* ================= STORAGE ================= */
 
 const storage = new CloudinaryStorage({
+
   cloudinary,
 
   params: async (req, file) => ({
+
     folder: "silver-tech-computer",
+
     resource_type: "auto",
+
     format: file.mimetype.split("/")[1]
+
   })
+
 });
 
 const upload = multer({ storage });
 
 /* ================= MODELS ================= */
 
-
 const Product = require("./models/Product");
-
-=======
-const Product = require("./models/product");
 
 const User = require("./models/User");
 
@@ -65,107 +73,90 @@ const Activity = require("./models/Activity");
 
 const Slider = require("./models/Slider");
 
-
 /* ================= UPLOAD ================= */
 
 app.post(
-  "/upload",
+
+  "/api/upload",
+
   upload.single("file"),
 
   (req, res) => {
 
-    if (!req.file) {
+    try {
 
-      return res.status(400).json({
-        message: "No file ❌"
+      if (!req.file) {
+
+        return res.status(400).json({
+
+          message: "No file uploaded ❌"
+
+        });
+
+      }
+
+      res.json({
+
+        url: req.file.path
+
       });
 
-=======
-/* ================= HOME ================= */
+    } catch (err) {
 
-app.get("/", (req, res) => {
-  res.send("Silva Tech API Running ✅");
-});
-
-/* ================= UPLOAD ================= */
-
-app.post("/api/upload", upload.single("file"), (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({
-        message: "No file uploaded ❌"
-      });
+      res.status(500).send(err.message);
 
     }
 
-    res.json({
-      url: req.file.path
-    });
-
-
   }
+
 );
 
 /* ================= USERS ================= */
 
-app.get("/users", async (req, res) => {
-
-  try {
-
-    const users = await User.find();
-
-    res.json(users);
-
-  } catch (err) {
-
-    res.status(500).send(err.message);
-
-  }
-
-=======
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
-
-/* ================= USERS ================= */
-
 app.get("/api/users", async (req, res) => {
+
   try {
+
     const users = await User.find();
+
     res.json(users);
 
   } catch (err) {
+
     res.status(500).send(err.message);
+
   }
 
 });
 
 /* ================= AUTH ================= */
 
-
-app.post("/signup", async (req, res) => {
-
-  try {
-
-=======
 app.post("/api/signup", async (req, res) => {
+
   try {
 
     const hashedPassword = await bcrypt.hash(
+
       req.body.password,
+
       10
+
     );
 
     const user = new User({
+
       ...req.body,
+
       password: hashedPassword
+
     });
 
     await user.save();
 
     res.json({
+
       message: "Signup success ✅"
+
     });
 
   } catch (err) {
@@ -176,97 +167,76 @@ app.post("/api/signup", async (req, res) => {
 
 });
 
-
-app.post("/login", async (req, res) => {
-
-  try {
-
-    const user = await User.findOne({
-      email: req.body.email
-    });
-
-    if (!user) {
-      return res.status(400).send(
-        "User not found ❌"
-      );
-    }
-
-    const isMatch = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-
-    if (!isMatch) {
-      return res.status(400).send(
-        "Wrong password ❌"
-      );
-    }
-
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
-
-    res.json({
-      user,
-      token
-    });
-
-  } catch (err) {
-
-    res.status(500).send(err.message);
-
-  }
-
-=======
 app.post("/api/login", async (req, res) => {
+
   try {
+
     const user = await User.findOne({
+
       email: req.body.email
+
     });
 
     if (!user) {
-      return res.status(400).send("User not found ❌");
+
+      return res.status(400).send(
+
+        "User not found ❌"
+
+      );
+
     }
 
     const isMatch = await bcrypt.compare(
+
       req.body.password,
+
       user.password
+
     );
 
     if (!isMatch) {
-      return res.status(400).send("Wrong password ❌");
+
+      return res.status(400).send(
+
+        "Wrong password ❌"
+
+      );
+
     }
 
     const token = jwt.sign(
+
       { id: user._id },
+
       process.env.JWT_SECRET,
+
       { expiresIn: "1d" }
+
     );
 
     res.json({
+
       user,
+
       token
+
     });
 
   } catch (err) {
+
     res.status(500).send(err.message);
+
   }
 
 });
 
 /* ================= PRODUCTS ================= */
 
-
-app.get("/products", async (req, res) => {
-
-  try {
-
-=======
 /* GET ALL PRODUCTS */
 
 app.get("/api/products", async (req, res) => {
+
   try {
 
     const products = await Product.find();
@@ -275,133 +245,42 @@ app.get("/api/products", async (req, res) => {
 
   } catch (err) {
 
-
-    console.log(err);
-
     res.status(500).send(err.message);
 
   }
 
-});
-
-app.get("/products/:id", async (req, res) => {
-
-  try {
-
-    const product = await Product.findById(
-      req.params.id
-    );
-=======
-    res.status(500).send(err.message);
-  }
 });
 
 /* GET SINGLE PRODUCT */
 
 app.get("/api/products/:id", async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
 
+  try {
+
+    const product = await Product.findById(
+
+      req.params.id
+
+    );
 
     res.json(product);
 
   } catch (err) {
 
-
     res.status(500).send(err.message);
 
   }
 
-});
-
-app.post("/products", async (req, res) => {
-
-  try {
-
-    const data = {
-
-      ...req.body,
-
-      price: Number(req.body.price),
-
-      media: (req.body.media || [])
-        .filter(Boolean),
-
-      isTopSeller:
-        req.body.isTopSeller === true ||
-        req.body.isTopSeller === "true" ||
-        req.body.isTopSeller === 1 ||
-        req.body.isTopSeller === "1"
-    };
-
-    await new Product(data).save();
-
-    res.send("Added ✅");
-
-  } catch (err) {
-
-    res.status(500).send(err.message);
-
-  }
-
-});
-
-app.put("/products/:id", async (req, res) => {
-
-  try {
-
-    const updated = {
-
-      ...req.body,
-
-      isTopSeller:
-        req.body.isTopSeller === true ||
-        req.body.isTopSeller === "true" ||
-        req.body.isTopSeller === 1 ||
-        req.body.isTopSeller === "1"
-    };
-
-    await Product.findByIdAndUpdate(
-      req.params.id,
-      updated
-    );
-
-    res.send("Updated ✅");
-
-  } catch (err) {
-
-    res.status(500).send(err.message);
-
-  }
-
-});
-
-app.delete("/products/:id", async (req, res) => {
-
-  try {
-
-    await Product.findByIdAndDelete(
-      req.params.id
-    );
-
-    res.send("Deleted ✅");
-
-  } catch (err) {
-
-    res.status(500).send(err.message);
-
-  }
-
-=======
-    res.status(500).send(err.message);
-  }
 });
 
 /* ADD PRODUCT */
 
 app.post("/api/products", async (req, res) => {
+
   try {
+
     const data = {
+
       ...req.body,
 
       price: Number(req.body.price),
@@ -409,10 +288,15 @@ app.post("/api/products", async (req, res) => {
       media: (req.body.media || []).filter(Boolean),
 
       isTopSeller:
+
         req.body.isTopSeller === true ||
+
         req.body.isTopSeller === "true" ||
+
         req.body.isTopSeller === 1 ||
+
         req.body.isTopSeller === "1"
+
     };
 
     const newProduct = new Product(data);
@@ -422,56 +306,77 @@ app.post("/api/products", async (req, res) => {
     res.send("Product Added ✅");
 
   } catch (err) {
+
     res.status(500).send(err.message);
+
   }
+
 });
 
 /* UPDATE PRODUCT */
 
 app.put("/api/products/:id", async (req, res) => {
+
   try {
+
     const updatedData = {
+
       ...req.body,
 
       isTopSeller:
+
         req.body.isTopSeller === true ||
+
         req.body.isTopSeller === "true" ||
+
         req.body.isTopSeller === 1 ||
+
         req.body.isTopSeller === "1"
+
     };
 
     await Product.findByIdAndUpdate(
+
       req.params.id,
+
       updatedData
+
     );
 
     res.send("Product Updated ✅");
 
   } catch (err) {
+
     res.status(500).send(err.message);
+
   }
+
 });
 
 /* DELETE PRODUCT */
 
 app.delete("/api/products/:id", async (req, res) => {
+
   try {
-    await Product.findByIdAndDelete(req.params.id);
+
+    await Product.findByIdAndDelete(
+
+      req.params.id
+
+    );
 
     res.send("Product Deleted ✅");
 
   } catch (err) {
+
     res.status(500).send(err.message);
+
   }
 
 });
 
 /* ================= SLIDER ================= */
 
-
-app.post("/add-slider", async (req, res) => {
-
-=======
 /* ADD SLIDER */
 
 app.post("/api/add-slider", async (req, res) => {
@@ -483,14 +388,19 @@ app.post("/api/add-slider", async (req, res) => {
     if (!url) {
 
       return res.status(400).send(
+
         "URL required ❌"
+
       );
 
     }
 
     await new Slider({
+
       url,
+
       type: type || "image"
+
     }).save();
 
     res.send("Slider Added ✅");
@@ -503,15 +413,10 @@ app.post("/api/add-slider", async (req, res) => {
 
 });
 
-
-app.get("/slider", async (req, res) => {
-
-  try {
-
-=======
 /* GET SLIDERS */
 
 app.get("/api/slider", async (req, res) => {
+
   try {
 
     const sliders = await Slider.find();
@@ -520,84 +425,54 @@ app.get("/api/slider", async (req, res) => {
 
   } catch (err) {
 
-
     res.status(500).send(err.message);
 
   }
 
-});
-
-app.delete("/slider/:id", async (req, res) => {
-
-  try {
-
-    await Slider.findByIdAndDelete(
-      req.params.id
-    );
-
-    res.send("Deleted");
-
-  } catch (err) {
-
-    res.status(500).send(err.message);
-
-  }
-
-=======
-    res.status(500).send(err.message);
-  }
 });
 
 /* DELETE SLIDER */
 
 app.delete("/api/slider/:id", async (req, res) => {
+
   try {
-    await Slider.findByIdAndDelete(req.params.id);
+
+    await Slider.findByIdAndDelete(
+
+      req.params.id
+
+    );
 
     res.send("Slider Deleted ✅");
 
   } catch (err) {
+
     res.status(500).send(err.message);
+
   }
 
 });
 
 /* ================= ACTIVITY ================= */
 
-
-app.post("/activity", async (req, res) => {
-
-  try {
-
-    await new Activity(req.body).save();
-
-    res.send("Saved ✅");
-
-  } catch (err) {
-
-    res.status(500).send(err.message);
-
-  }
-
-});
-
-app.get("/activity", async (req, res) => {
-
-  try {
-
-=======
 app.post("/api/activity", async (req, res) => {
+
   try {
+
     await new Activity(req.body).save();
 
     res.send("Activity Saved ✅");
 
   } catch (err) {
+
     res.status(500).send(err.message);
+
   }
+
 });
 
 app.get("/api/activity", async (req, res) => {
+
   try {
 
     const activity = await Activity.find();
@@ -606,13 +481,8 @@ app.get("/api/activity", async (req, res) => {
 
   } catch (err) {
 
-
     res.status(500).send(err.message);
 
-  }
-
-=======
-    res.status(500).send(err.message);
   }
 
 });
@@ -620,7 +490,6 @@ app.get("/api/activity", async (req, res) => {
 /* ================= DATABASE ================= */
 
 mongoose.connect(process.env.MONGO_URI)
-
 
 .then(() => {
 
@@ -636,26 +505,14 @@ mongoose.connect(process.env.MONGO_URI)
 
 /* ================= SERVER ================= */
 
-app.listen(5000, () => {
-
-  console.log(
-    "Server running on http://localhost:5000 🚀"
-  );
-
-});
-=======
-  .then(() => {
-    console.log("MongoDB Connected ✅");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-/* ================= SERVER ================= */
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} 🚀`);
-});
 
+  console.log(
+
+    `Server running on port ${PORT} 🚀`
+
+  );
+
+});
