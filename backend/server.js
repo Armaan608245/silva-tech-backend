@@ -53,19 +53,19 @@ const upload = multer({ storage });
 
 /* ================= MODELS ================= */
 
-<<<<<<< HEAD
+
 const Product = require("./models/Product");
 
 =======
 const Product = require("./models/product");
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
 const User = require("./models/User");
 
 const Activity = require("./models/Activity");
 
 const Slider = require("./models/Slider");
 
-<<<<<<< HEAD
+
 /* ================= UPLOAD ================= */
 
 app.post(
@@ -95,14 +95,14 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
       return res.status(400).json({
         message: "No file uploaded ❌"
       });
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
     }
 
     res.json({
       url: req.file.path
     });
 
-<<<<<<< HEAD
+
   }
 );
 
@@ -138,12 +138,12 @@ app.get("/api/users", async (req, res) => {
   } catch (err) {
     res.status(500).send(err.message);
   }
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
 });
 
 /* ================= AUTH ================= */
 
-<<<<<<< HEAD
+
 app.post("/signup", async (req, res) => {
 
   try {
@@ -151,7 +151,7 @@ app.post("/signup", async (req, res) => {
 =======
 app.post("/api/signup", async (req, res) => {
   try {
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
     const hashedPassword = await bcrypt.hash(
       req.body.password,
       10
@@ -176,7 +176,7 @@ app.post("/api/signup", async (req, res) => {
 
 });
 
-<<<<<<< HEAD
+
 app.post("/login", async (req, res) => {
 
   try {
@@ -253,12 +253,12 @@ app.post("/api/login", async (req, res) => {
   } catch (err) {
     res.status(500).send(err.message);
   }
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
 });
 
 /* ================= PRODUCTS ================= */
 
-<<<<<<< HEAD
+
 app.get("/products", async (req, res) => {
 
   try {
@@ -268,13 +268,13 @@ app.get("/products", async (req, res) => {
 
 app.get("/api/products", async (req, res) => {
   try {
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
     const products = await Product.find();
 
     res.json(products);
 
   } catch (err) {
-<<<<<<< HEAD
+
 
     console.log(err);
 
@@ -301,12 +301,12 @@ app.get("/products/:id", async (req, res) => {
 app.get("/api/products/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
 
     res.json(product);
 
   } catch (err) {
-<<<<<<< HEAD
+
 
     res.status(500).send(err.message);
 
@@ -463,19 +463,19 @@ app.delete("/api/products/:id", async (req, res) => {
   } catch (err) {
     res.status(500).send(err.message);
   }
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
 });
 
 /* ================= SLIDER ================= */
 
-<<<<<<< HEAD
+
 app.post("/add-slider", async (req, res) => {
 
 =======
 /* ADD SLIDER */
 
 app.post("/api/add-slider", async (req, res) => {
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
   try {
 
     const { url, type } = req.body;
@@ -503,7 +503,7 @@ app.post("/api/add-slider", async (req, res) => {
 
 });
 
-<<<<<<< HEAD
+
 app.get("/slider", async (req, res) => {
 
   try {
@@ -513,13 +513,13 @@ app.get("/slider", async (req, res) => {
 
 app.get("/api/slider", async (req, res) => {
   try {
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
     const sliders = await Slider.find();
 
     res.json(sliders);
 
   } catch (err) {
-<<<<<<< HEAD
+
 
     res.status(500).send(err.message);
 
@@ -559,12 +559,12 @@ app.delete("/api/slider/:id", async (req, res) => {
   } catch (err) {
     res.status(500).send(err.message);
   }
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
 });
 
 /* ================= ACTIVITY ================= */
 
-<<<<<<< HEAD
+
 app.post("/activity", async (req, res) => {
 
   try {
@@ -599,13 +599,13 @@ app.post("/api/activity", async (req, res) => {
 
 app.get("/api/activity", async (req, res) => {
   try {
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
     const activity = await Activity.find();
 
     res.json(activity);
 
   } catch (err) {
-<<<<<<< HEAD
+
 
     res.status(500).send(err.message);
 
@@ -614,13 +614,13 @@ app.get("/api/activity", async (req, res) => {
 =======
     res.status(500).send(err.message);
   }
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
 });
 
 /* ================= DATABASE ================= */
 
 mongoose.connect(process.env.MONGO_URI)
-<<<<<<< HEAD
+
 
 .then(() => {
 
@@ -658,4 +658,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} 🚀`);
 });
->>>>>>> 47f2158eed81247773d742857523b3e46206e309
+
